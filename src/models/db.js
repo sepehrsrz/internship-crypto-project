@@ -14,4 +14,4 @@ mongoose.connect(
     }
 );
 
-require('./schemas');
+require('./models');

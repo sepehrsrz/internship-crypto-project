@@ -1,15 +1,14 @@
-const Article = require('../../models/schemas')
+const models = require('../../models/models')
 
 module.exports = {
 
-  articles: async () => {
+  all_market: async ({pair,timeframe}) => {
     try {
-       const articlesFetched = await Article.find()
-        return articlesFetched.map(article => {
+       const marketFetched = await models.Market.find({ $and: [ {pair:pair},{timeframe:timeframe} ] })
+        return marketFetched.map(market => {
             return { 
-                ...article._doc, 
-                _id: article.id, 
-                createdAt: new Date(article._doc.createdAt).toISOString() }
+                ...market._doc, 
+                _id: market.id }
         })
     }
     catch (error) {
@@ -18,19 +17,23 @@ module.exports = {
     
  },
 
-  createArticle: async args => {
-  try {
-    const { title, body } = args.article
-    const article = new Article({
-        title,
-        body
-    })
-    const newArticle = await article.save()
-    return { ...newArticle._doc, _id: newArticle.id }
-  }
-  catch (error) {
-      throw error
-  }
-
+ timespan_market: async ({pair,timeframe,openTime,closeTime}) => {
+    try {
+       const marketFetched = await models.Market.find({ $and: 
+        [ {pair:pair},
+            {timeframe:timeframe},
+            {openTime:{$gte:openTime}},
+            {closeTime:{$lte:closeTime}} ] })
+        return marketFetched.map(market => {
+            return { 
+                ...market._doc, 
+                _id: market.id }
+        })
+    }
+    catch (error) {
+        throw error
+    }
+    
  }
+
 }

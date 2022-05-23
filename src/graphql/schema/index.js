@@ -1,31 +1,28 @@
-var { buildSchema } = require('graphql');
+const { buildSchema } = require('graphql');
 
-// Construct a schema, using GraphQL schema language
 module.exports = buildSchema(`
-
-  type Article {
+  type Market {
     _id: ID!
-    title: String!
-    body: String!
-    createdAt: String!
+    pair: String!
+    timeframe : String!
+    openTime: Float!
+    open: Float!
+    high: Float!
+    low: Float!
+    close: Float!
+    volume: Float!
+    closeTime: Float!
+    quoteVolume: Float!
+    trades: Int!
+    baseAssetVolume : Float!
+    quoteAssetVolume : Float!
   }
-  
-  
-  input ArticleInput {
-    title: String!
-    body: String!
-  }
-  
   type Query {
-    articles:[Article!]
-  }
+    all_market(pair: String!,timeframe: String!):[Market!]
+    timespan_market(pair: String!,timeframe: String!,openTime: Float!,closeTime: Float!): [Market!]
 
-  type Mutation {
-    createArticle(article:ArticleInput): Article
   }
-
   schema {
     query: Query
-    mutation: Mutation
   }
 `)
