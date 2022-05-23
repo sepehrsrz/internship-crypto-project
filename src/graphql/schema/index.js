@@ -17,11 +17,25 @@ module.exports = buildSchema(`
     baseAssetVolume : Float!
     quoteAssetVolume : Float!
   }
+
+  type Signal {
+    _id: ID!
+    signal_number: Int!
+    status: String!
+  }
+
+  type Decision {
+    _id: ID!
+    analyst: Int!
+    signal: Int!
+    analyst_decision: String!
+  }
+
   type Query {
     all_market(pair: String!,timeframe: String!):[Market!]
     timespan_market(pair: String!,timeframe: String!,openTime: Float!,closeTime: Float!): [Market!]
-
   }
+
   schema {
     query: Query
   }

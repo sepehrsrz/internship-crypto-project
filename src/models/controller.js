@@ -1,7 +1,6 @@
 const Binance = require('binance-api-node').default
 const mongoose = require('mongoose')
 const models = require('./models')
-require('./db');
 
 const now = new Date().getTime()
 const step = 86400 * 1000 * 1000 // 24hr * 1000 day * 1000 ms
@@ -40,6 +39,7 @@ async function get_data(symbol = "BTCUSDT", interval = '1d', startTime = 0 , end
 }
 
 const connectDB = async () => {
+  console.log('Please wait for database to be updated')
   await models.Market.deleteMany({})
   await get_data().then(async records => {
   await models.Market.insertMany(records)
@@ -47,8 +47,7 @@ const connectDB = async () => {
 }
 
 connectDB().then(() => {
-  console.log('Insert to database succeeded')
-  mongoose.connection.close()
+  console.log('Database updated successfully')
 })
 
 
