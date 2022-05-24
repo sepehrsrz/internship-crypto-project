@@ -31,9 +31,21 @@ module.exports = buildSchema(`
     analyst_decision: String!
   }
 
+  type AnalystRate {
+    _id: ID!
+    true_decisions: Int!
+    acceptable_decisions: Int!
+    decisions_rate: Float!
+  }
+
   type Query {
     all_market(pair: String!,timeframe: String!):[Market!]
     timespan_market(pair: String!,timeframe: String!,openTime: Float!,closeTime: Float!): [Market!]
+
+    all_signals:[Signal!]
+    all_decisions(analyst:Int):[Decision!]
+    analysts_rank:[AnalystRate!]!
+
   }
 
   schema {
